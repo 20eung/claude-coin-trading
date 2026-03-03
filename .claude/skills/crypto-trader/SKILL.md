@@ -1,11 +1,11 @@
 ---
 name: crypto-trader
-description: Claude Code 기반 암호화폐 자동매매 시스템. Upbit 거래소를 통한 매매 실행, 시장 데이터 분석, 공포탐욕지수/뉴스 감성 분석을 종합하여 LLM이 매매 결정을 내리는 지능형 트레이딩 봇. claude -p 를 통한 cron 자동 실행과 대화형 세션을 통한 전략 관리를 모두 지원한다.
-version: 2.0.0
+description: Claude Code 기반 암호화폐 자동매매 시스템. Bithumb 거래소를 통한 매매 실행, 시장 데이터 분석, 공포탐욕지수/뉴스 감성 분석을 종합하여 LLM이 매매 결정을 내리는 지능형 트레이딩 봇. claude -p 를 통한 cron 자동 실행과 대화형 세션을 통한 전략 관리를 모두 지원한다.
+version: 3.0.0
 author: Dante Labs
 tags:
   - 자동매매
-  - Upbit
+  - Bithumb
   - 암호화폐
   - Supabase
   - Telegram
@@ -28,8 +28,8 @@ Claude Code 기반 암호화폐 자동매매 시스템의 메인 오케스트레
 ### 필수 API 키 (`.env` 파일)
 
 ```bash
-UPBIT_ACCESS_KEY=...
-UPBIT_SECRET_KEY=...
+BITHUMB_ACCESS_KEY=...
+BITHUMB_SECRET_KEY=...
 TAVILY_API_KEY=tvly-...
 SUPABASE_URL=https://your-project.supabase.co
 SUPABASE_SERVICE_ROLE_KEY=...
@@ -68,7 +68,7 @@ claude-coin-trading/
 ├── strategy.md                    # 매매 전략 (LLM이 해석하는 핵심 파일)
 ├── requirements.txt               # Python 의존성
 ├── scripts/
-│   ├── collect_market_data.py     # Upbit 시장 데이터 + 기술지표 수집
+│   ├── collect_market_data.py     # Bithumb 시장 데이터 + 기술지표 수집
 │   ├── collect_fear_greed.py      # 공포탐욕지수 수집
 │   ├── collect_news.py            # Tavily 뉴스 수집
 │   ├── capture_chart.py           # Playwright 차트 캡처
@@ -99,7 +99,7 @@ claude-coin-trading/
 전체 데이터를 수집하고 LLM이 시장 분석 리포트를 생성한다.
 
 **실행 흐름:**
-1. Upbit API로 시장 데이터 수집 (현재가, OHLCV, 호가, 체결)
+1. Bithumb API로 시장 데이터 수집 (현재가, OHLCV, 호가, 체결)
 2. Fear & Greed Index 수집
 3. Tavily로 최신 뉴스 수집
 4. (선택) Playwright로 차트 캡처
@@ -166,7 +166,7 @@ bash scripts/cron_run.sh
 
 | 스킬 | 레퍼런스 스크립트 |
 |------|-----------------|
-| `upbit-api` | `collect_market_data.py`, `execute_trade.py`, `get_portfolio.py` |
+| `bithumb-api` | `collect_market_data.py`, `execute_trade.py`, `get_portfolio.py` |
 | `fear-greed-index` | `collect_fear_greed.py` |
 | `tavily-news` | `collect_news.py` |
 | `chart-capture` | `capture_chart.py` |

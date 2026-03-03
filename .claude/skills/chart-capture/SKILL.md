@@ -1,7 +1,7 @@
 ---
 name: chart-capture
-description: Playwright를 사용하여 암호화폐 차트(Upbit)를 캡처하는 스킬. headless 모드로 서버 환경에서 실행 가능하다.
-version: 2.0.0
+description: Playwright를 사용하여 암호화폐 차트(Bithumb)를 캡처하는 스킬. headless 모드로 서버 환경에서 실행 가능하다.
+version: 3.0.0
 tags:
   - Playwright
   - 차트
@@ -15,7 +15,7 @@ Playwright를 사용하여 암호화폐 차트를 자동으로 캡처한다. 캡
 ## 공식 문서
 
 - Playwright Python: https://playwright.dev/python/docs/intro
-- Upbit 차트: `https://upbit.com/full_chart?code=CRIX.UPBIT.KRW-BTC`
+- Bithumb 차트: `https://www.bithumb.com/trade/order/BTC_KRW`
 
 ## 의존성
 
@@ -28,8 +28,8 @@ playwright install chromium
 
 | 소스 | URL |
 |------|-----|
-| Upbit 차트 | `https://upbit.com/full_chart?code=CRIX.UPBIT.KRW-BTC` |
-| TradingView | `https://www.tradingview.com/chart/?symbol=UPBIT:BTCKRW` |
+| Bithumb 차트 | `https://www.bithumb.com/trade/order/BTC_KRW` |
+| TradingView | `https://www.tradingview.com/chart/?symbol=BITHUMB:BTCKRW` |
 
 ## 캡처 설정
 
@@ -60,7 +60,7 @@ await page.wait_for_timeout(5000)  # 차트 애니메이션 완료 대기
 
 ## 레퍼런스 스크립트
 
-`scripts/capture_chart.py` — Upbit BTC/KRW 차트를 캡처하여 `data/charts/`에 저장.
+`scripts/capture_chart.py` — Bithumb BTC/KRW 차트를 캡처하여 `data/charts/`에 저장.
 
 출력 형식:
 

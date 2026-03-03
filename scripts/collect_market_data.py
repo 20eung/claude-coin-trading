@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Upbit 시장 데이터 수집 스크립트
+Bithumb 시장 데이터 수집 스크립트
 
 수집 항목:
   - 현재가 (ticker)
@@ -22,13 +22,13 @@ import uuid
 import jwt
 import requests
 
-UPBIT_API = "https://api.upbit.com/v1"
+BITHUMB_API = "https://api.bithumb.com/v1"
 
 
-# ── Upbit JWT 인증 ──────────────────────────────────────
+# ── Bithumb JWT 인증 ─────────────────────────────────────
 def make_auth_header(query_string: str | None = None) -> dict:
     payload = {
-        "access_key": os.environ["UPBIT_ACCESS_KEY"],
+        "access_key": os.environ["BITHUMB_ACCESS_KEY"],
         "nonce": str(uuid.uuid4()),
         "timestamp": int(time.time() * 1000),
     }
@@ -37,13 +37,13 @@ def make_auth_header(query_string: str | None = None) -> dict:
             query_string.encode()
         ).hexdigest()
         payload["query_hash_alg"] = "SHA512"
-    token = jwt.encode(payload, os.environ["UPBIT_SECRET_KEY"], algorithm="HS256")
+    token = jwt.encode(payload, os.environ["BITHUMB_SECRET_KEY"], algorithm="HS256")
     return {"Authorization": f"Bearer {token}"}
 
 
 # ── API 호출 ────────────────────────────────────────────
 def api_get(path: str, params: dict | None = None) -> dict | list:
-    url = f"{UPBIT_API}{path}"
+    url = f"{BITHUMB_API}{path}"
     if params:
         url += "?" + "&".join(f"{k}={v}" for k, v in params.items())
     r = requests.get(url, timeout=10)

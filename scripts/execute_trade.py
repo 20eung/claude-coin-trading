@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Upbit 매매 실행 스크립트
+Bithumb 매매 실행 스크립트
 
 안전장치:
   - EMERGENCY_STOP=true → 모든 매매 차단
@@ -25,18 +25,18 @@ from urllib.parse import urlencode
 import jwt
 import requests
 
-UPBIT_API = "https://api.upbit.com/v1"
+BITHUMB_API = "https://api.bithumb.com"
 
 
 def make_auth_header(query_string: str) -> dict:
     payload = {
-        "access_key": os.environ["UPBIT_ACCESS_KEY"],
+        "access_key": os.environ["BITHUMB_ACCESS_KEY"],
         "nonce": str(uuid.uuid4()),
         "timestamp": int(time.time() * 1000),
         "query_hash": hashlib.sha512(query_string.encode()).hexdigest(),
         "query_hash_alg": "SHA512",
     }
-    token = jwt.encode(payload, os.environ["UPBIT_SECRET_KEY"], algorithm="HS256")
+    token = jwt.encode(payload, os.environ["BITHUMB_SECRET_KEY"], algorithm="HS256")
     return {"Authorization": f"Bearer {token}", "Content-Type": "application/json"}
 
 
@@ -79,19 +79,19 @@ def execute(side: str, market: str, amount: str):
             "timestamp": ts,
         }
 
-    # 4) 주문 실행
+    # 4) 주문 실행 (Bithumb v2 API)
     body = {"market": market, "side": side}
     if side == "bid":
-        body["ord_type"] = "price"  # 시장가 매수
+        body["order_type"] = "price"  # 시장가 매수
         body["price"] = amount
     else:
-        body["ord_type"] = "market"  # 시장가 매도
+        body["order_type"] = "market"  # 시장가 매도
         body["volume"] = amount
 
     qs = urlencode(body)
     headers = make_auth_header(qs)
 
-    r = requests.post(f"{UPBIT_API}/orders", json=body, headers=headers, timeout=10)
+    r = requests.post(f"{BITHUMB_API}/v2/orders", json=body, headers=headers, timeout=10)
     response = r.json()
 
     return {

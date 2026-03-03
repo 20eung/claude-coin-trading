@@ -56,7 +56,7 @@ curl -s -X POST "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage" 
 
 ```bash
 python3 scripts/notify_telegram.py trade "BTC 매수 실행" "10만원 매수, RSI 28"
-python3 scripts/notify_telegram.py error "데이터 수집 실패" "Upbit API 타임아웃"
+python3 scripts/notify_telegram.py error "데이터 수집 실패" "Bithumb API 타임아웃"
 ```
 
 ## 메시지 타입

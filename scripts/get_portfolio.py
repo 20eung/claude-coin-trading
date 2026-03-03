@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Upbit 포트폴리오 조회 스크립트
+Bithumb 포트폴리오 조회 스크립트
 
 조회 항목:
   - KRW 잔고
@@ -20,23 +20,23 @@ import uuid
 import jwt
 import requests
 
-UPBIT_API = "https://api.upbit.com/v1"
+BITHUMB_API = "https://api.bithumb.com/v1"
 
 
 def make_auth_header() -> dict:
     payload = {
-        "access_key": os.environ["UPBIT_ACCESS_KEY"],
+        "access_key": os.environ["BITHUMB_ACCESS_KEY"],
         "nonce": str(uuid.uuid4()),
         "timestamp": int(time.time() * 1000),
     }
-    token = jwt.encode(payload, os.environ["UPBIT_SECRET_KEY"], algorithm="HS256")
+    token = jwt.encode(payload, os.environ["BITHUMB_SECRET_KEY"], algorithm="HS256")
     return {"Authorization": f"Bearer {token}"}
 
 
 def main():
     # 잔고 조회
     r = requests.get(
-        f"{UPBIT_API}/accounts", headers=make_auth_header(), timeout=10
+        f"{BITHUMB_API}/accounts", headers=make_auth_header(), timeout=10
     )
     r.raise_for_status()
     accounts = r.json()
@@ -63,26 +63,34 @@ def main():
                 }
             )
 
+    # 유효한 KRW 마켓만 필터링
+    if markets:
+        all_markets_r = requests.get(f"{BITHUMB_API}/market/all", timeout=10)
+        valid_markets = {m["market"] for m in all_markets_r.json() if m["market"].startswith("KRW-")}
+        markets = [m for m in markets if m in valid_markets]
+
     # 보유 종목 현재가 조회
     if markets:
         r2 = requests.get(
-            f"{UPBIT_API}/ticker",
+            f"{BITHUMB_API}/ticker",
             params={"markets": ",".join(markets)},
             timeout=10,
         )
-        for t in r2.json():
-            cur = t["market"].replace("KRW-", "")
-            h = next((h for h in holdings if h["currency"] == cur), None)
-            if h:
-                h["current_price"] = t["trade_price"]
-                h["eval_amount"] = h["balance"] * t["trade_price"]
-                if h["avg_buy_price"] > 0:
-                    h["profit_loss_pct"] = round(
-                        (t["trade_price"] - h["avg_buy_price"])
-                        / h["avg_buy_price"]
-                        * 100,
-                        2,
-                    )
+        data = r2.json()
+        if isinstance(data, list):
+            for t in data:
+                cur = t["market"].replace("KRW-", "")
+                h = next((h for h in holdings if h["currency"] == cur), None)
+                if h:
+                    h["current_price"] = t["trade_price"]
+                    h["eval_amount"] = h["balance"] * t["trade_price"]
+                    if h["avg_buy_price"] > 0:
+                        h["profit_loss_pct"] = round(
+                            (t["trade_price"] - h["avg_buy_price"])
+                            / h["avg_buy_price"]
+                            * 100,
+                            2,
+                        )
 
     total_eval = krw_balance + sum(h["eval_amount"] for h in holdings)
     total_invested = sum(h["balance"] * h["avg_buy_price"] for h in holdings)
