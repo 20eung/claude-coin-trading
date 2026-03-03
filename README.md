@@ -53,6 +53,14 @@
 
 ## 빠른 시작
 
+### 원클릭 설치
+
+```bash
+bash <(curl -sL https://raw.githubusercontent.com/20eung/claude-coin-trading/main/setup.sh)
+```
+
+### 수동 설치
+
 ```bash
 git clone https://github.com/20eung/claude-coin-trading.git
 cd claude-coin-trading

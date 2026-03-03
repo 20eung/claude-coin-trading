@@ -3,7 +3,7 @@
 # Claude 암호화폐 자동매매 시스템 - 원클릭 설치 스크립트
 #
 # 사용법:
-#   bash setup.sh
+#   bash <(curl -sL https://raw.githubusercontent.com/20eung/claude-coin-trading/main/setup.sh)
 # ──────────────────────────────────────────────────────────
 
 set -euo pipefail
@@ -27,7 +27,7 @@ fail()  { echo -e "${RED}[FAIL]${NC}  $1"; exit 1; }
 echo ""
 echo -e "${BOLD}${CYAN}╔══════════════════════════════════════════════════╗${NC}"
 echo -e "${BOLD}${CYAN}║   Claude 암호화폐 자동매매 시스템 설치           ║${NC}"
-echo -e "${BOLD}${CYAN}║   Powered by Claude Code + Upbit + Telegram     ║${NC}"
+echo -e "${BOLD}${CYAN}║   Powered by Claude Code + Bithumb + Telegram    ║${NC}"
 echo -e "${BOLD}${CYAN}╚══════════════════════════════════════════════════╝${NC}"
 echo ""
 
