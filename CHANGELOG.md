@@ -2,6 +2,28 @@
 
 이 문서는 프로젝트의 주요 변경 사항을 기록합니다.
 
+## [1.1.0] - 2026-03-04
+
+### cron 자동화 및 텔레그램 포맷 개선
+
+#### cron 자동매매 설정 (Step 12)
+
+- **cron_run.sh** — cron 환경에서 `claude`, `python3`를 찾기 위한 PATH 설정 추가
+- **setup_cron.sh** — 대화형 간격 선택 (4h/8h/12h/24h) 지원
+- 8시간 간격 cron 등록 및 전체 파이프라인 테스트 통과
+
+#### 텔레그램 메시지 포맷 개선
+
+- **notify_telegram.py** — MarkdownV2 → HTML 전환 (특수문자 이스케이프 문제 해결)
+- `report` 타입 신규 추가: 구조화된 JSON → 줄바꿈 포맷으로 분석 리포트 전송
+- stdin 파이프 입력 지원 (`echo JSON | notify_telegram.py report -`)
+- **run_analysis.sh** — Claude에게 `report` JSON 형식 명세를 프롬프트에 추가
+
+#### 저장소 이름 변경
+
+- GitHub 저장소명 `claude-coin-trading` → `claude-coin-trading-bithumb`
+- README.md, setup.sh, CLAUDE.md, 스킬 문서의 URL 및 디렉토리명 일괄 변경
+
 ## [1.0.0] - 2026-03-03
 
 ### 거래소 마이그레이션: Upbit → Bithumb
