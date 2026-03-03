@@ -8,3 +8,7 @@ data/snapshots/
 logs/executions/
 logs/claude_responses/
 *.sqlite
+.bkit/
+docs/.pdca-status.json
+docs/.pdca-snapshots/
+docs/.bkit-memory.json

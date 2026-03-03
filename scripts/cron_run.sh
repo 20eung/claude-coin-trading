@@ -11,6 +11,9 @@
 
 set -euo pipefail
 
+# cron 환경에서 claude, python3 등을 찾기 위한 PATH 설정
+export PATH="/Users/20eung/.local/bin:/opt/homebrew/bin:/usr/local/bin:$PATH"
+
 PROJECT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$PROJECT_DIR"
 
