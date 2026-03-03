@@ -3,10 +3,7 @@
 # Claude 암호화폐 자동매매 시스템 - 원클릭 설치 스크립트
 #
 # 사용법:
-#   bash <(curl -sL https://trading.dante-labs.com/coin/install.sh)
-#
-# 또는:
-#   curl -sL https://trading.dante-labs.com/coin/install.sh | bash
+#   bash setup.sh
 # ──────────────────────────────────────────────────────────
 
 set -euo pipefail
@@ -68,7 +65,7 @@ if [ -d "$PROJECT_DIR" ]; then
 fi
 
 # ── 저장소 클론 ─────────────────────────────────────────
-REPO_URL="https://github.com/dandacompany/claude-coin-trading.git"
+REPO_URL="https://github.com/20eung/claude-coin-trading.git"
 
 info "저장소를 복제합니다..."
 git clone --depth 1 "$REPO_URL" "$PROJECT_DIR" 2>/dev/null \
