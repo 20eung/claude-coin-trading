@@ -120,13 +120,20 @@ def send_report(data):
     # 【포트폴리오】
     portfolio = data.get("portfolio", {})
     if portfolio:
+        PORTFOLIO_LABELS = {
+            "holdings": "보유수량:",
+            "eval_amount": "평가금액:",
+            "profit_loss": "평가손익:",
+        }
         lines.append("")
         lines.append("<b>\u3010포트폴리오\u3011</b>")
         for key, value in portfolio.items():
             val = str(value)
-            if key == "profit_loss":
-                val = val.replace("평가손", "평가손익:")
-            lines.append(e(val))
+            label = PORTFOLIO_LABELS.get(key)
+            if label:
+                lines.append(f"{label} {e(val)}")
+            else:
+                lines.append(f"{e(key)}: {e(val)}")
 
     text = "\n".join(lines)
     _send(bot_token, user_id, text, parse_mode="HTML")
